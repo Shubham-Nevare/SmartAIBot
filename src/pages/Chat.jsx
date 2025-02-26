@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { dataContext, prevUser } from '../context/UserContext'
 
 function Chat() {
-  const {input, setInput,prevInput, setPrevInput, showResult, setShowResult, feature, setFeature, prevFeature, setPrevFeature} =useContext(dataContext)
+  const {input, setInput,prevInput, setPrevInput, showResult, setShowResult, feature, setFeature, prevFeature, setPrevFeature,genImgUrl, setGenImgUrl} =useContext(dataContext)
   return (
     <div className='chat-page'>
         <div className="user">
@@ -16,12 +16,14 @@ function Chat() {
         <div className="ai">
         {prevFeature=="genimg"
         ?
-        <> <img src={prevUser.imgUrl} alt="" />
-        {!showResult?   <span>Loading...</span>:<span>{showResult}</span> }
+        <> 
+        {!genImgUrl?   <span>Generating Image...</span>:<img src={genImgUrl} alt="" /> }
         </>
           :  !showResult
           ?
-            <span>Loading...</span>:<span>{showResult}</span> }
+            <span>Loading...</span>
+            :
+            <span>{showResult}</span> }
         </div>
     </div>
   )

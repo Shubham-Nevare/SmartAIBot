@@ -28,6 +28,9 @@ nav{
 #tag{
   font-size: 2vmax;
 }
+.logo{
+  cursor: pointer;
+}
 .cate{
   display: flex;
   justify-content: center;
@@ -138,9 +141,15 @@ flex-direction: column;
 gap: 20px;
 }
 .user img{
-width: 200px;
-border-radius: 20px;
+  max-width: 200px;
+  width: 90%;
+  border-radius: 20px;
 }
+.ai img{
+  max-width: 300px;
+  width: 90%;
+  border-radius: 20px;
+  }
 
 .pop-up{
   width: 180px;
@@ -183,7 +192,19 @@ border-radius: 20px;
   height: 22px;
   color: rgb(19, 161, 218);
 }
+#im {
+  height: 100px;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 90px;
+  left: 15%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 255, 0.209);
+}
+
 @media (max-width: 500px) {
+  #im{
+    bottom: 150px;
+  }
   #tag {
     font-size: 30px;
   }

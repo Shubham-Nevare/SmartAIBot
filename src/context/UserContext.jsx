@@ -20,13 +20,15 @@ function UserContext({children}) {
     const [feature, setFeature] =useState("chat")
     const [showResult, setShowResult] = useState("")
     const [prevFeature, setPrevFeature] = useState("chat") 
+    const [genImgUrl, setGenImgUrl] = useState("")
     const value={
         startRes, setStartRes,
         popUp, setPopUp,
         input, setInput,
         feature, setFeature,
         showResult, setShowResult,
-        prevFeature, setPrevFeature
+        prevFeature, setPrevFeature,
+        genImgUrl, setGenImgUrl
     }
   return (
     <div>

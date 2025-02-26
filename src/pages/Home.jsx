@@ -7,6 +7,7 @@ import { FaArrowUpLong } from "react-icons/fa6";
 import { dataContext, prevUser, user } from "../context/UserContext";
 import Chat from "./Chat";
 import { generateResponse } from "../gemini";
+import { query } from "../huggingFace";
 function Home() {
   const {
     startRes,
@@ -19,7 +20,7 @@ function Home() {
     setFeature,
     showResult,
     setShowResult,
-    prevFeature, setPrevFeature
+    prevFeature, setPrevFeature,genImgUrl, setGenImgUrl
   } = useContext(dataContext);
   async function handleSubmit(e) {
     setStartRes(true);
@@ -29,13 +30,14 @@ function Home() {
     prevUser.mime_type = user.mime_type;
     prevUser.imgUrl = user.imgUrl;
     prevUser.prompt = input;
+    user.data = null;
+    user.mime_type = null;
+    user.imgUrl = null;
     setInput("");
     const result = await generateResponse();
     setShowResult(result);
     setFeature("chat")
-    user.data = null;
-    user.mime_type = null;
-    user.imgUrl = null;
+    
   }
 
   function handleImage(e) {
@@ -52,10 +54,31 @@ function Home() {
     reader.readAsDataURL(file);
   }
 
+  async function handleGenerateImg(){
+    setPrevFeature(feature);
+    setStartRes(true);
+    setGenImgUrl("")
+    prevUser.prompt=input
+    const reasult = await query ().then(()=>{
+      const url=URL.createObjectURL(e);
+      setGenImgUrl(url)
+    }) 
+    setInput("")
+      setFeature("chat")
+  }
+
   return (
     <div className="home">
       <nav>
-        <div className="logo">Smart AI Bot</div>
+        <div className="logo" 
+        onClick={()=>{
+          setFeature(false);
+          setFeature("chat");
+          user.data = null;
+    user.mime_type = null;
+    user.imgUrl = null;
+    setPopUp(false)
+        }}>Smart AI Bot</div>
       </nav>
       <input
         type="file"
@@ -97,10 +120,16 @@ function Home() {
         onSubmit={(e) => {
           e.preventDefault();
           if (input) {
-            handleSubmit(e);
+            if(feature=="genimg"){
+              handleGenerateImg()
+            }else{
+              handleSubmit(e);
+            }
           }
         }}
       >
+      <img src={user.imgUrl} alt="" id="im"/>
+
         {popUp ? (
           <div className="pop-up">
             <div
@@ -114,8 +143,9 @@ function Home() {
               <RiImageAddLine />
               <span>Upload Image</span>
             </div>
-            <div className="select-gen" onClick={() => { setPopUp(false);
-                setFeature("genImg")}}>
+            <div className="select-gen" onClick={() => { 
+              setPopUp(false);
+                setFeature("genimg")}}>
               <RiImageAiLine />
               <span>Generate Image</span>
             </div>
@@ -128,7 +158,7 @@ function Home() {
             setPopUp((prev) => !prev);
           }}
         >
-          {feature == "genImg" ? <RiImageAiLine id="genImg" /> : <FiPlus />}
+          {feature == "genimg" ? <RiImageAiLine id="genImg" /> : <FiPlus />}
         </div>
         <input
           type="text"
