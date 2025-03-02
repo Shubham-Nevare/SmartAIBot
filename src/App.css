@@ -120,14 +120,14 @@ form input{
   height: 70%;
   display: flex;
   justify-content: start;
-  align-items: start;
+  align-items: center;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
   overflow-y: auto;
 }
 .user, .ai {
-  width: 90%;
+  width: 65%;
   padding: 10px 20px;
   color: white;
   background-color: rgb(11, 16, 17);
